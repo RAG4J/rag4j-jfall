@@ -1,4 +1,4 @@
-# RAG4J - Retrieval Augmented Generation for Java
+# JFall workshop making use of RAG4J - Retrieval Augmented Generation for Java
 Welcome to the repository for our project [RAG4J.org](https://rag4j.org). This project is a Java implementation of the
 Retrieval Augmented Generation framework. It is a framework that is simple to use and understand. But powerful 
 enough to extend for your own projects. The framework is designed to use as the base for a project, ideal to learn
