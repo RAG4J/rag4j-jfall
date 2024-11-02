@@ -1,27 +1,16 @@
-# JFall workshop making use of RAG4J - Retrieval Augmented Generation for Java
-Welcome to the repository for our project [RAG4J.org](https://rag4j.org). This project is a Java implementation of the
-Retrieval Augmented Generation framework. It is a framework that is simple to use and understand. But powerful 
-enough to extend for your own projects. The framework is designed to use as the base for a project, ideal to learn
-about the different components of a RAG system. You should be able to read all the code in an hour and change the code
-to learn about the different aspects of a RAG system. This project is perfect to use in a workshop to learn about RAG.
+# JFall 2024 - Build the best knowledge retriever for your Large Language Model.
+_By Jettro Coenradie and Daniel Spee_
+
+Welcome to the repository that accompanies our workshop at JFall 2024. To get most out of our workshop, please follow this readme. You need Java installed and preferably and IDE. We use IDEA, but any other IDE will do. We will push the assignments to this repository during the workshop. You can check your setup by running the tests and through a provided script.
+
+
+The repository is a copy of the original project [RAG4J.org](https://rag4j.org). This project is a Java implementation of the Retrieval Augmented Generation framework. It is a framework that is simple to use and understand. But powerful enough to extend for your own projects. The framework is designed to use as the base for a project, ideal to learn about the different components of a RAG system. You should be able to read all the code in an hour and change the code to learn about the different aspects of a RAG system. This project is perfect to use in a workshop to learn about RAG.
 
 If you prefer to do this in Python, you can use the [RAG4P](https://github.com/RAG4J/rag4p) project.
 
 ## Structure of the project
 
 The project is divided into a number of packages. Each package contains a different aspect of the RAG system.
-
-### applications
-This package contains a number of applications that use the different components of the RAG system. The applications
-are used to demonstrate the different components of the RAG system. The applications are not meant to be used in a
-production environment. They are meant to be used to learn about the different components of the RAG system.
-- `complete` - Application that uses all the components of the RAG system, there is one that uses the local store, and one that uses Weaviate.
-- `generation` - Applications that show how to generate answers and questions. There is a special Vasa question generator. This generator loops over all the available
-  `chunks` in a content store and generates questions for each chunk. The questions are stored in a file. This file is
-  used to verify the quality of the retriever. This is also called a `synthetic judgement list`.
-- `indexing` - Applications that show how to index content in the local store and in Weaviate.
-- `integration` - Application that shows how to connect with Weaviate and OpenAI.
-- `retrieval` - Applications that show how to retrieve chunks from the local store and from Weaviate.
 
 ### indexing
 This package contains the components used to index content into the content store. It provides the `IndexingService`, which is used to index content using a `ContentReader` or a single InputDocument. Both methods require a splitter to split the content into chunks. Multiple splitters are available out of the box. 
@@ -98,3 +87,13 @@ only, and limit the amount of interaction, or we get blocked for exceeding our l
 a remote file, which is encrypted. Of course you can also use your own key if you have it.
 
 Use at the class `KeyLoader` to learn more about loading the properties.
+
+You can run a java class with the following command:
+```shell
+./mvnw exec:java -Dexec.mainClass="org.rag4j.AppStep0CheckEnvironment"
+```
+
+The format for running a single test is:
+```shell
+./mvnw -Dtest=TestClassName#methodName test
+```

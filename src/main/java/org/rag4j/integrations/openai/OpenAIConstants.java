@@ -5,11 +5,12 @@ package org.rag4j.integrations.openai;
  */
 public interface OpenAIConstants {
     String GPT4O = "gpt-4o";
+    String GPT4O_MINI = "gpt-4o-mini";
     String GPT4 = "gpt-4";
     String GPT4TURBO = "gpt-4-turbo";
     String GPT35 = "gpt-3.5-turbo";
 
-    String DEFAULT_MODEL = GPT4O;
+    String DEFAULT_MODEL = GPT4O_MINI;
 
     String ADA2 = "text-embedding-ada-002";
     String SMALL = "text-embedding-3-small";
