@@ -13,13 +13,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
  * This class is used to generate questions for a given text and to evaluate the quality of the retrieval.
  */
 public class RetrievalQualityService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(RetrievalQualityService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RetrievalQualityService.class);
 
     private final Retriever retriever;
 
@@ -34,7 +36,7 @@ public class RetrievalQualityService {
             String question = questionAnswerRecord.getQuestion();
             List<Float> embed = embedder.embed(question);
             RelevantChunk relevantChunks = this.retriever.findRelevantChunks(question, embed, 1).getFirst();
-            if (relevantChunks.getChunkId() == questionAnswerRecord.getChunkId() && relevantChunks.getDocumentId().equals(questionAnswerRecord.getDocumentId())) {
+            if (relevantChunks.getChunkId().equals(questionAnswerRecord.getChunkId()) && relevantChunks.getDocumentId().equals(questionAnswerRecord.getDocumentId())) {
                 correct.add(relevantChunks.getDocumentChunkId());
             } else {
                 incorrect.add(questionAnswerRecord.getDocumentId() + "_" + questionAnswerRecord.getChunkId());
@@ -48,18 +50,7 @@ public class RetrievalQualityService {
     public List<QuestionAnswerRecord> readQuestionAnswersFromFile(String fileName) {
         List<QuestionAnswerRecord> questionAnswerRecords = new ArrayList<>();
         try (Reader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(fileName)), StandardCharsets.UTF_8))) {
-            CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
-                    .setHeader("document", "chunk", "text", "question")
-                    .setSkipHeaderRecord(true)
-                    .build();
-            Iterable<CSVRecord> records = csvFormat.parse(reader);
-            for (CSVRecord record : records) {
-                String documentId = record.get("document");
-                String chunkId = record.get("chunk");
-                String text = record.get("text");
-                String question = record.get("question");
-                questionAnswerRecords.add(new QuestionAnswerRecord(documentId, chunkId, text, question));
-            }
+            readQuestionAnswerRecords(reader, questionAnswerRecords);
         } catch (IOException e) {
             LOGGER.error("An error occurred while reading the file.", e);
             throw new RuntimeException(e);
@@ -67,4 +58,29 @@ public class RetrievalQualityService {
         return questionAnswerRecords;
     }
 
+    public List<QuestionAnswerRecord> readQuestionAnswersFromFilePath(Path filePath) {
+        List<QuestionAnswerRecord> questionAnswerRecords = new ArrayList<>();
+        try (Reader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath), StandardCharsets.UTF_8))) {
+            readQuestionAnswerRecords(reader, questionAnswerRecords);
+        } catch (IOException e) {
+            LOGGER.error("An error occurred while reading the file.", e);
+            throw new RuntimeException(e);
+        }
+        return questionAnswerRecords;
+    }
+
+    private static void readQuestionAnswerRecords(Reader reader, List<QuestionAnswerRecord> questionAnswerRecords) throws IOException {
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader("document", "chunk", "text", "question")
+                .setSkipHeaderRecord(true)
+                .build();
+        Iterable<CSVRecord> records = csvFormat.parse(reader);
+        for (CSVRecord csvRecord : records) {
+            String documentId = csvRecord.get("document");
+            String chunkId = csvRecord.get("chunk");
+            String text = csvRecord.get("text");
+            String question = csvRecord.get("question");
+            questionAnswerRecords.add(new QuestionAnswerRecord(documentId, chunkId, text, question));
+        }
+    }
 }
