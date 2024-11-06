@@ -120,9 +120,9 @@ public class AnswerQualityService {
             "the number as an integer. 5 means the answer contains only facts from the context. 1 means there is " +
             "not match between the answer and the provided context at all. If the answer contains exact phrases " +
             "from the context, the score should be lower as well. The answer provided after 'answer:'. The " +
-            "context after 'context:'. Write your answers in the format of score - reason. Keep the reason short " +
+            "context after 'context:' between backticks. Write your answers in the format of score - reason. Keep the reason short " +
             "as in maximum 2 sentences. An example: 3 - The answer is correct but some details are missing.";
 
     private static final String qualityOfAnswerToQuestionUserPrompt = "Question: %s%nAnswer: %s%nResult:%n";
-    private static final String qualityOfAnswerFromContextUserPrompt = "Answer: %s%nContext: %s%nResult:%n";
+    private static final String qualityOfAnswerFromContextUserPrompt = "Answer: %s%nContext: ```%s```%nResult:%n";
 }
