@@ -50,12 +50,12 @@ public class KnowledgeExtractorService {
             "6. Provide enough context in the description to make each knowledge chunk understandable on its own.\n" +
             "\n" +
             "Format:\n" +
-            "{{\n" +
+            "{\n" +
             "    \"knowledge_chunks\": [\n" +
-            "        {{\"subject\": \"subject\", \"description\": \"description\"}},\n" +
+            "        {\"subject\": \"subject\", \"description\": \"description\"},\n" +
             "        ...\n" +
             "    ]\n" +
-            "}}\n" +
+            "}\n" +
             "Text: \n" +
             "%s\n";
 

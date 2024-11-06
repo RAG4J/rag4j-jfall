@@ -1,6 +1,7 @@
 package org.rag4j;
 
 import lombok.extern.slf4j.Slf4j;
+import org.rag4j.integrations.ollama.OllamaAccess;
 import org.rag4j.integrations.weaviate.WeaviateAccess;
 import org.rag4j.util.keyloader.KeyLoader;
 
@@ -25,5 +26,8 @@ public class AppStep0CheckEnvironment {
         }
         WeaviateAccess weaviateAccess = new WeaviateAccess(keyLoader);
         weaviateAccess.logClusterMeta();
+
+        OllamaAccess ollamaAccess = new OllamaAccess();
+        ollamaAccess.listModels().forEach(log::info);
     }
 }
